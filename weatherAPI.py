@@ -29,3 +29,10 @@ description = jsonData["description"]
 print "天気概要(", description["publicTime"], ")"
 print description["text"].encode("utf8").replace("\n\n", "\n")
 
+print ""
+copyright = jsonData["copyright"]
+provider = copyright["provider"][0]
+prov = provider["name"].encode("utf8") + "(" + provider["link"].encode("utf8") + ")"
+print "配信元:", prov
+copyr = copyright["title"] + "(" + copyright["image"]["link"] + ")"
+print copyr
