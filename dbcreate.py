@@ -33,8 +33,9 @@ def getCityID(name):
     if id == 0:
         print "Sorry, %s does not exist in DATABASE." % name
     else:
-        print "id: %d" % id
-    return id
+        # print "id: %d" % id
+        pass
+    return str(id).zfill(6)
 
 
 if __name__ == "__main__":
