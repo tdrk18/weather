@@ -28,7 +28,8 @@ SQL
 end
 
 db = SQLite3::Database.open("config/location.db")
-db.execute("select * from Location") do |row|
+name = "仙台"
+db.execute("select * from Location where name=\"#{name}\"") do |row|
   puts row.join("\t")
 end
 db.close
