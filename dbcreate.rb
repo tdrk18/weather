@@ -28,9 +28,16 @@ SQL
 end
 
 db = SQLite3::Database.open("config/location.db")
-name = "仙台"
+name = "a"
+id = 0
 db.execute("select * from Location where name=\"#{name}\"") do |row|
-  puts row.join("\t")
+  id = row[1]
 end
 db.close
+
+if id == 0 then
+  puts "Sorry, #{name} does not exist in DATABASE."
+else
+  puts "id: #{id}"
+end
 
