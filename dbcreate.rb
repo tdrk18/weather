@@ -16,19 +16,19 @@ num  integer
 );
 SQL
   db.execute(sql)
+
+  db.transaction do
+    sql = "insert into Location values (?, ?)"
+    File.open("data.txt").each_line do |line|
+      line = line.split(",")
+      db.execute(sql, line[0], line[1].chomp.to_i)
+    end
+  end
   db.close
 end
 
 db = SQLite3::Database.open("config/location.db")
-db.transaction do
-  sql = "insert into Location values (?, ?)"
-  File.open("data.txt").each_line do |line|
-    line = line.split(",")
-    db.execute(sql, line[0], line[1].chomp.to_i)
-  end
-end
-
-db.execute('select * from Location') do |row|
+db.execute("select * from Location") do |row|
   puts row.join("\t")
 end
 db.close
