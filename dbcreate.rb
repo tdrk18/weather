@@ -3,15 +3,23 @@
 require 'rubygems'
 require 'sqlite3'
 
-db = SQLite3::Database.new("location.db")
-sql = <<SQL
-  create table Location (
-  name varchar(10),
-  num  integer
+unless File.exists?("config") then
+  `mkdir config`
+end
+
+unless File.exists?("config/location.db") then
+  db = SQLite3::Database.new("config/location.db")
+  sql = <<SQL
+create table Location (
+name varchar(10),
+num  integer
 );
 SQL
-db.execute(sql)
+  db.execute(sql)
+  db.close
+end
 
+db = SQLite3::Database.open("config/location.db")
 db.transaction do
   sql = "insert into Location values (?, ?)"
   File.open("data.txt").each_line do |line|
