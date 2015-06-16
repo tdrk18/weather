@@ -27,9 +27,11 @@ SQL
     end
     db.close
   end
+end
 
+def getCityID(name)
   db = SQLite3::Database.open("config/location.db")
-  name = "仙台"
+  # name = "仙台"
   id = 0
   db.execute("select * from Location where name=\"#{name}\"") do |row|
     id = row[1]
@@ -45,5 +47,12 @@ SQL
 end
 
 if __FILE__ == $0 then
+  if ARGV.length == 0 then
+    puts "Please input the city-name."
+    exit 1
+  end
+  name = ARGV[0]
   dbcreate()
+  getCityID(name)
 end
+
