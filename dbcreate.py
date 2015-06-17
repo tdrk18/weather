@@ -12,15 +12,16 @@ def dbcreate():
         sql = """
 create table Location(
 name varchar(10),
+romaji varchar(20),
 num integer
 );
 """
         db.execute(sql)
 
-        sql = "insert into Location values (?, ?)"
+        sql = "insert into Location values (?, ?, ?)"
         for line in open("data/location.csv").readlines():
             line = line.split(",")
-            db.execute(sql, (line[0].decode("utf8"), int(line[1].strip())))
+            db.execute(sql, (line[0].decode("utf8"), line[1].decode("utf8"), int(line[2].strip())))
         db.commit()
         db.close()
 
@@ -28,7 +29,7 @@ def getCityID(name):
     db = sqlite3.connect("config/location.db")
     id = 0
     for row in db.execute("select * from Location where name=\"%s\"" % name):
-        id = row[1]
+        id = row[-1]
     db.close()
     if id == 0:
         print "Sorry, %s does not exist in DATABASE." % name

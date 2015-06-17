@@ -13,16 +13,17 @@ def dbcreate()
     sql = <<SQL
 create table Location (
 name varchar(10),
+romaji varchar(20),
 num  integer
 );
 SQL
     db.execute(sql)
 
     db.transaction do
-      sql = "insert into Location values (?, ?)"
+      sql = "insert into Location values (?, ?, ?)"
       File.open("data/location.csv").each_line do |line|
         line = line.split(",")
-        db.execute(sql, line[0], line[1].chomp.to_i)
+        db.execute(sql, line[0], line[1], line[2].chomp.to_i)
       end
     end
     db.close
@@ -34,7 +35,7 @@ def getCityID(name)
   # name = "仙台"
   id = 0
   db.execute("select * from Location where name=\"#{name}\"") do |row|
-    id = row[1]
+    id = row[-1]
   end
   db.close
 
