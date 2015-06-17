@@ -20,7 +20,7 @@ SQL
 
     db.transaction do
       sql = "insert into Location values (?, ?)"
-      File.open("data.txt").each_line do |line|
+      File.open("data/location.csv").each_line do |line|
         line = line.split(",")
         db.execute(sql, line[0], line[1].chomp.to_i)
       end

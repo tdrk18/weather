@@ -18,7 +18,7 @@ num integer
         db.execute(sql)
 
         sql = "insert into Location values (?, ?)"
-        for line in open("data.txt").readlines():
+        for line in open("data/location.csv").readlines():
             line = line.split(",")
             db.execute(sql, (line[0].decode("utf8"), int(line[1].strip())))
         db.commit()
